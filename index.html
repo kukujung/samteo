@@ -280,10 +280,11 @@
     padding:0 12px;font-size:14px;color:var(--ink)}
   .sub-p{font-size:13px;color:var(--ink-soft);margin:6px 0 2px;line-height:1.55}
   /* 📅 월간 캘린더 뷰 — 화면 전체를 채우는 고정 그리드 */
-  .calview{position:fixed;inset:0;z-index:80;background:var(--paper);display:flex;flex-direction:column;padding:14px 14px 0;overflow:hidden;animation:fade .25s ease}
+  .calview{position:fixed;inset:0;z-index:80;background:var(--paper);display:flex;flex-direction:column;padding:8px 14px 0;overflow:hidden;animation:fade .25s ease;touch-action:none}
   .calview[hidden]{display:none}
-  .cal-head{flex:none;display:flex;align-items:center;gap:8px;max-width:660px;width:100%;margin:6px auto 14px}
-  .cal-title{flex:1;text-align:center;font-family:var(--f-disp);font-weight:700;font-size:20px}
+  .cal-topbar{flex:none;display:flex;justify-content:flex-end;max-width:660px;width:100%;margin:4px auto 0}
+  .cal-monthnav{flex:none;display:flex;align-items:center;justify-content:center;gap:14px;margin:2px auto 14px}
+  .cal-title{flex:none;text-align:center;font-family:var(--f-disp);font-weight:700;font-size:20px;min-width:150px}
   .cal-nav{width:38px;height:38px;border-radius:11px;border:1px solid var(--line);background:var(--surface);font-size:17px;color:var(--ink-mid)}
   .cal-nav:hover{border-color:var(--line-strong)}
   .cal-x{width:38px;height:38px;border:0;background:none;font-size:17px;color:var(--ink-soft)}
@@ -401,7 +402,8 @@
 </aside>
 
 <div class="calview" id="calView" hidden>
-  <div class="cal-head">
+  <div class="cal-topbar"><button class="cal-x" id="calX" title="닫기">✕</button></div>
+  <div class="cal-monthnav">
     <button class="cal-nav" id="calPrev" title="이전 달">‹</button>
     <div class="cal-title" id="calTitle"></div>
     <button class="cal-nav" id="calNext" title="다음 달">›</button>
@@ -920,13 +922,17 @@
   document.getElementById("calSheetBg").onclick=closeSheet;
   document.getElementById("calPrev").onclick=function(){calShift(-1);};
   document.getElementById("calNext").onclick=function(){calShift(1);};
-  /* 창 닫기: 오른쪽→왼쪽 스와이프 (× 버튼 대신) */
-  (function(){var sx=0,sy=0,sw=false,cv=document.getElementById("calView");
-    cv.addEventListener("pointerdown",function(e){sx=e.clientX;sy=e.clientY;sw=true;});
-    cv.addEventListener("pointerup",function(e){if(!sw)return;sw=false;
-      var dx=e.clientX-sx,dy=e.clientY-sy;
-      if(dx<-65&&Math.abs(dx)>Math.abs(dy)*1.4)closeCal();});
-    cv.addEventListener("pointercancel",function(){sw=false;});})();
+  /* 창 닫기: ✕ 버튼(웹·모바일 공통) + 왼쪽으로 밀거나 아래로 쓱 내리기(모바일 보너스) */
+  document.getElementById("calX").onclick=closeCal;
+  (function(){var sx=0,sy=0,tr=false,cv=document.getElementById("calView");
+    function start(x,y){sx=x;sy=y;tr=true;}
+    function end(x,y){if(!tr)return;tr=false;var dx=x-sx,dy=y-sy;
+      if((dx<-48&&Math.abs(dx)>Math.abs(dy))||(dy>60&&Math.abs(dy)>Math.abs(dx)))closeCal();}
+    /* 모바일 = 터치 이벤트(가장 확실), 데스크톱 = 마우스 포인터 */
+    cv.addEventListener("touchstart",function(e){if(e.touches.length===1)start(e.touches[0].clientX,e.touches[0].clientY);else tr=false;},{passive:true});
+    cv.addEventListener("touchend",function(e){var t=e.changedTouches[0];if(t)end(t.clientX,t.clientY);},{passive:true});
+    cv.addEventListener("pointerdown",function(e){if(e.pointerType==="mouse")start(e.clientX,e.clientY);});
+    cv.addEventListener("pointerup",function(e){if(e.pointerType==="mouse")end(e.clientX,e.clientY);});})();
   var searchQ="";
   var searchIn=document.getElementById("searchIn"), searchBox=document.querySelector(".drawer-search");
   searchIn.addEventListener("input",function(){searchQ=searchIn.value.trim();searchBox.classList.toggle("has",!!searchQ);renderDrawer();});
