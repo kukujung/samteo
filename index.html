@@ -405,7 +405,6 @@
     <button class="cal-nav" id="calPrev" title="이전 달">‹</button>
     <div class="cal-title" id="calTitle"></div>
     <button class="cal-nav" id="calNext" title="다음 달">›</button>
-    <button class="cal-x" id="calX" title="닫기">✕</button>
   </div>
   <div class="cal-legend" id="calLegend"></div>
   <div class="cal-week"><span class="sun">일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div>
@@ -918,10 +917,16 @@
         row.appendChild(b);});
       cd.appendChild(row);}}
   document.getElementById("calBtn").onclick=openCal;
-  document.getElementById("calX").onclick=closeCal;
   document.getElementById("calSheetBg").onclick=closeSheet;
   document.getElementById("calPrev").onclick=function(){calShift(-1);};
   document.getElementById("calNext").onclick=function(){calShift(1);};
+  /* 창 닫기: 오른쪽→왼쪽 스와이프 (× 버튼 대신) */
+  (function(){var sx=0,sy=0,sw=false,cv=document.getElementById("calView");
+    cv.addEventListener("pointerdown",function(e){sx=e.clientX;sy=e.clientY;sw=true;});
+    cv.addEventListener("pointerup",function(e){if(!sw)return;sw=false;
+      var dx=e.clientX-sx,dy=e.clientY-sy;
+      if(dx<-65&&Math.abs(dx)>Math.abs(dy)*1.4)closeCal();});
+    cv.addEventListener("pointercancel",function(){sw=false;});})();
   var searchQ="";
   var searchIn=document.getElementById("searchIn"), searchBox=document.querySelector(".drawer-search");
   searchIn.addEventListener("input",function(){searchQ=searchIn.value.trim();searchBox.classList.toggle("has",!!searchQ);renderDrawer();});
