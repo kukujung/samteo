@@ -1,0 +1,9 @@
+{
+  "name": "🪺샘터🪺",
+  "short_name": "🪺샘터🪺",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#FCFBF9",
+  "theme_color": "#FCFBF9",
+  "icons": [{ "src": "icon.png", "sizes": "1024x1024", "type": "image/png" }]
+}
