@@ -263,7 +263,7 @@ html[data-theme="dark"] .st-category{--cat-ink:color-mix(in srgb,var(--cat) 70%,
 .st-side-arrow:hover{background:var(--surface);color:var(--ink);border-color:var(--st-gold)}
 
 /* 카드뉴스형 넘김: 넓이에 따라 데스크톱 4/3/2장, 모바일 1장 */
-.st-candidate-grid,.st-product-grid{display:flex;align-items:flex-start;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;touch-action:pan-x;scroll-snap-type:x mandatory;scrollbar-width:none;padding:2px 34px 10px}
+.st-candidate-grid,.st-product-grid{display:flex;align-items:flex-start;gap:12px;overflow-x:auto;overscroll-behavior-x:contain;touch-action:pan-x pan-y;scroll-snap-type:x mandatory;scrollbar-width:none;padding:2px 34px 10px}
 .st-candidate-grid::-webkit-scrollbar,.st-product-grid::-webkit-scrollbar{display:none}
 .st-candidate-grid>.st-candidate,.st-product-grid>.st-product{flex:1 0 calc(25% - 9px);align-self:flex-start;scroll-snap-align:start;scroll-snap-stop:always}
 
@@ -277,7 +277,7 @@ html[data-theme="dark"] .st-category{--cat-ink:color-mix(in srgb,var(--cat) 70%,
 .st-taxonomy-edit{flex:none;border:1px dashed color-mix(in srgb,var(--st-gold) 42%,var(--line));background:transparent;color:var(--st-gold-ink);border-radius:999px;padding:6px 10px;font-size:10.5px;font-weight:800;white-space:nowrap}
 .st-taxonomy-edit:hover{background:var(--st-gold-tint)}
 .st-sort-select-wrap{display:block;position:relative;flex:none}
-.st-sort-select{width:clamp(150px,16vw,190px);border:1px solid var(--line);background:color-mix(in srgb,var(--surface) 92%,var(--field));color:var(--ink-mid);border-radius:999px;padding:8px 10px;font-size:10.5px;font-weight:850;outline:none}
+.st-sort-select{width:clamp(104px,11vw,132px);border:1px solid var(--line);background:color-mix(in srgb,var(--surface) 92%,var(--field));color:var(--ink-mid);border-radius:999px;padding:6px 8px;font-size:10px;font-weight:850;outline:none}
 .st-sort-select:focus{border-color:var(--st-gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--st-gold-tint) 75%,transparent)}
 .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
 .st-filter-empty{min-height:150px;border:1px dashed var(--line-strong);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--ink-soft);font-size:11.5px;text-align:center}
@@ -363,12 +363,16 @@ html[data-theme="dark"] .st-category{--cat-ink:color-mix(in srgb,var(--cat) 70%,
 @media(max-width:680px){
   .home{overflow:hidden}
   .choices{display:flex!important;grid-template-columns:none!important;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;width:100%;margin:0 auto;gap:10px!important;padding:5px 0 18px}
+  .choices[hidden]{display:none!important}
   .choices::-webkit-scrollbar{display:none}
   .choice{flex:0 0 calc(50% - 5px);min-height:44svh!important;scroll-snap-align:start}
-  .choice.samteo{order:1}.choice.calendar{order:2}.choice.script-hub{order:3}.choice.product{order:2}.choice.routine{order:3}
+  .choice.calendar{order:1}.choice.samteo{order:2}.choice.script-hub{order:3}.choice.product{order:2}.choice.routine{order:3}
   .samteo-view{padding-top:18px}
   .st-top,.st-room-head{flex-direction:column}
   .st-actions{width:100%;justify-content:flex-start}
+  .st-top-simple{flex-direction:row;align-items:center;justify-content:space-between}
+  .st-top-simple .st-actions{width:auto;justify-content:flex-end}
+  .st-top-simple .st-mini-title{font-size:14px}.st-top-simple .st-mini-title span{font-size:15px}
   .st-quick{grid-template-columns:1fr}
   .st-quick-side{display:grid;grid-template-columns:1fr 1fr}
   .st-room-grid,.st-analysis-grid{grid-template-columns:1fr}
@@ -380,8 +384,8 @@ html[data-theme="dark"] .st-category{--cat-ink:color-mix(in srgb,var(--cat) 70%,
   .st-modal{padding:18px}
   .st-workflow{grid-template-columns:1fr}
   .st-workstep{min-height:72px!important}
-  .st-category-head{align-items:flex-start;flex-direction:column}
-  .st-category-actions{width:100%;justify-content:flex-start}
+  .st-category-actions{width:auto;flex:none}
+  .st-category-head h2{white-space:nowrap;font-size:18px}
   .st-room-title-row{gap:6px}
   .st-shell{width:calc(100vw - 24px);margin-inline:calc(50% - (50vw - 12px))}
   .st-room-nav-actions{gap:3px}
@@ -402,7 +406,7 @@ html[data-theme="dark"] .st-category{--cat-ink:color-mix(in srgb,var(--cat) 70%,
   .st-section-head{align-items:flex-start;gap:8px}
   .st-section-actions{flex-direction:column-reverse;align-items:flex-end}
   .st-product-toolbar{gap:7px}
-  .st-sort-select{width:138px;padding:8px 7px;font-size:9.5px}
+  .st-sort-select{width:104px;padding:6px 7px;font-size:9.5px}
   .st-samteo-product-list{margin-top:16px;max-height:45svh}
   .st-taxonomy-row-actions button{width:29px}
 }
